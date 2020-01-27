@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>651</width>
-    <height>265</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,45 +63,10 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="salleLabel">
-            <property name="text">
-             <string>Salle:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="pcLabel">
-            <property name="text">
-             <string>PC:</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="dateDebutLabel">
             <property name="text">
              <string>Date Debut:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="dateFinLabel">
-            <property name="text">
-             <string>Date Fin:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="dateDebutLineEdit">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="dateFinLineEdit">
-            <property name="readOnly">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -112,10 +77,45 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="dateFinLineEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="2">
            <widget class="QPushButton" name="dateFinPushButton">
             <property name="text">
              <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="dateDebutLineEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="salleLabel">
+            <property name="text">
+             <string>Salle:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="dateFinLabel">
+            <property name="text">
+             <string>Date Fin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="pcLabel">
+            <property name="text">
+             <string>PC:</string>
             </property>
            </widget>
           </item>
@@ -125,10 +125,24 @@
           <item row="1" column="1" colspan="2">
            <widget class="QComboBox" name="pcComboBox"/>
           </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QPushButton" name="validationPushButton">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QPushButton" name="quitPushButton">
+      <property name="text">
+       <string>Quitter</string>
+      </property>
      </widget>
     </item>
     <item row="0" column="1">
@@ -179,13 +193,6 @@
         </widget>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QPushButton" name="quitButton">
-      <property name="text">
-       <string>Quitter</string>
-      </property>
      </widget>
     </item>
    </layout>

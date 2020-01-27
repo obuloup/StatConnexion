@@ -6,6 +6,7 @@ from builtins import dict
 
 class StatConnexion(QtWidgets.QMainWindow):
     def __init__(self):
+        
         super(StatConnexion, self).__init__()
         self.ui = uic.loadUi("StatConnexion.ui", self)
         
@@ -17,6 +18,18 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.salleComboBox = self.ui.salleComboBox
         self.pcComboBox = self.ui.pcComboBox
         
+        self.quitPushButton = self.ui.quitPushButton
+        self.quitPushButton.clicked.connect(self.quit)
+        
+        self.validationPushButton = self.ui.validationPushButton
+        self.validationPushButton.clicked.connect(self.validate)
+        
+        self.dateDebutPushButton = self.ui.dateDebutPushButton
+        self.dateDebutPushButton.clicked.connect(self.showCallendar)
+        
+        self.dateFinPushButton = self.ui.dateFinPushButton
+        self.dateFinPushButton.clicked.connect(self.showCallendar)
+                
         self.show()
         
         
@@ -51,6 +64,15 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         self.salleComboBox.addItems(numSalle)
         self.pcComboBox.addItems(listePC)
+
+    def quit(self):
+        self.close()
         
-        # Traitement du fichier csv
+    def validate(self):
+        Salle = self.salleComboBox.currentText()
+        PC = self.pcComboBox.currentText()        
+        print(Salle, PC)
         
+        
+    def showCallendar(self):
+        print("Callendar")
