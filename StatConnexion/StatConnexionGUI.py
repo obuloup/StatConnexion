@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.Qt import QFileDialog
 
 import csv
+import calendarGUI
 
 from builtins import dict
 
@@ -46,25 +47,27 @@ class StatConnexion(QtWidgets.QMainWindow):
         listePC = []
         ListeFinalePC =[]
         
-        with open(chemin[0], newline='') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
-    
-            next(spamreader, None)
-    
-            for row in spamreader:
-                infoPC = row[0]
-                listeSalle.append(infoPC.split("-"))
-                listePC.append(infoPC)
-    
-            for row in listeSalle:
-                numeroSalle = row[1]
-                numSalle.append(numeroSalle)
+        if chemin[0].strip() != "":
         
-        numSalle = list(dict.fromkeys(numSalle))
-        listePC = list(dict.fromkeys(listePC))
+            with open(chemin[0], newline='') as csvfile:
+                spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         
-        self.salleComboBox.addItems(numSalle)
-        self.pcComboBox.addItems(listePC)
+                next(spamreader, None)
+        
+                for row in spamreader:
+                    infoPC = row[0]
+                    listeSalle.append(infoPC.split("-"))
+                    listePC.append(infoPC)
+        
+                for row in listeSalle:
+                    numeroSalle = row[1]
+                    numSalle.append(numeroSalle)
+            
+            numSalle = list(dict.fromkeys(numSalle))
+            listePC = list(dict.fromkeys(listePC))
+            
+            self.salleComboBox.addItems(numSalle)
+            self.pcComboBox.addItems(listePC)
         
     def validate(self):
         Salle = self.salleComboBox.currentText()
@@ -72,15 +75,9 @@ class StatConnexion(QtWidgets.QMainWindow):
         print(Salle, PC)
         
     def showCalendar(self):
-        self.calendar = calendar()
+        calendarGUI.Calendar()
         
     def quit(self):
         self.close()
-        
-class calendar(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(calendar, self).__init__()
-        self.ui = uic.loadUi("dialogueSelectionDate.ui", self)
-        self.show()
         
     
