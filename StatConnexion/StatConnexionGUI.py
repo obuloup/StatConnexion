@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.Qt import QFileDialog
 
 import csv
+
 from builtins import dict
 
 class StatConnexion(QtWidgets.QMainWindow):
@@ -25,10 +26,10 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.validationPushButton.clicked.connect(self.validate)
         
         self.dateDebutPushButton = self.ui.dateDebutPushButton
-        self.dateDebutPushButton.clicked.connect(self.showCallendar)
+        self.dateDebutPushButton.clicked.connect(self.showCalendar)
         
         self.dateFinPushButton = self.ui.dateFinPushButton
-        self.dateFinPushButton.clicked.connect(self.showCallendar)
+        self.dateFinPushButton.clicked.connect(self.showCalendar)
                 
         self.show()
         
@@ -64,15 +65,22 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         self.salleComboBox.addItems(numSalle)
         self.pcComboBox.addItems(listePC)
-
-    def quit(self):
-        self.close()
         
     def validate(self):
         Salle = self.salleComboBox.currentText()
         PC = self.pcComboBox.currentText()        
         print(Salle, PC)
         
+    def showCalendar(self):
+        self.calendar = calendar()
         
-    def showCallendar(self):
-        print("Callendar")
+    def quit(self):
+        self.close()
+        
+class calendar(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(calendar, self).__init__()
+        self.ui = uic.loadUi("dialogueSelectionDate.ui", self)
+        self.show()
+        
+    

@@ -4,4 +4,6 @@ import StatConnexionGUI
         
 statConnexionApplication = QtWidgets.QApplication([])
 window = StatConnexionGUI.StatConnexion()
+
+dialogueCalendar = StatConnexionGUI.calendar()
 statConnexionApplication.exec()
