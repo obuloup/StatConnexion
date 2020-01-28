@@ -7,6 +7,9 @@ import calendarGUI
 from builtins import dict
 
 class StatConnexion(QtWidgets.QMainWindow):
+    
+    chemin = ''
+    
     def __init__(self):
         
         super(StatConnexion, self).__init__()
@@ -19,6 +22,8 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         self.salleComboBox = self.ui.salleComboBox
         self.pcComboBox = self.ui.pcComboBox
+        
+        self.salleComboBox.currentIndexChanged.connect(self.updatePC)
         
         self.quitPushButton = self.ui.quitPushButton
         self.quitPushButton.clicked.connect(self.quit)
@@ -36,20 +41,19 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         
     def statConnexionFilePushButtonPressed(self):
+        self.salleComboBox.clear()
         
-        chemin = QFileDialog.getOpenFileName(self, 'Choisir College', '', '*.csv')
-        self.statConnexionFileLineEdit.setText(chemin[0])
+        cheminTemp = QFileDialog.getOpenFileName(self, 'Choisir College', '', '*.csv')
+        self.chemin = cheminTemp[0]
+        self.statConnexionFileLineEdit.setText(self.chemin)
         
         listeSalle = []
         numSalle = []
         ListeFinaleSalle = []
         
-        listePC = []
-        ListeFinalePC =[]
+        if self.chemin.strip() != "":
         
-        if chemin[0].strip() != "":
-        
-            with open(chemin[0], newline='') as csvfile:
+            with open(self.chemin, newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         
                 next(spamreader, None)
@@ -57,18 +61,39 @@ class StatConnexion(QtWidgets.QMainWindow):
                 for row in spamreader:
                     infoPC = row[0]
                     listeSalle.append(infoPC.split("-"))
-                    listePC.append(infoPC)
         
                 for row in listeSalle:
                     numeroSalle = row[1]
                     numSalle.append(numeroSalle)
             
             numSalle = list(dict.fromkeys(numSalle))
-            listePC = list(dict.fromkeys(listePC))
             
             self.salleComboBox.addItems(numSalle)
-            self.pcComboBox.addItems(listePC)
         
+    def updatePC(self):
+        self.pcComboBox.clear()
+        
+        Salle = self.salleComboBox.currentText()
+        
+        listePC = []
+        ListeFinalePC =[]
+        
+        if self.chemin.strip() != "":
+        
+            with open(self.chemin, newline='') as csvfile:
+                spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+        
+                next(spamreader, None)
+        
+                for row in spamreader:
+                    infoPC = row[0]
+                    if infoPC.split("-")[1] == Salle: 
+                        listePC.append(infoPC)
+        
+            listePC = list(dict.fromkeys(listePC))
+            
+            self.pcComboBox.addItems(listePC)
+    
     def validate(self):
         Salle = self.salleComboBox.currentText()
         PC = self.pcComboBox.currentText()        
