@@ -36,6 +36,8 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         self.dateFinPushButton = self.ui.dateFinPushButton
         self.dateFinPushButton.clicked.connect(self.showCalendar)
+        
+        
                 
         self.show()
         
