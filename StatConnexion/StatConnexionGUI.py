@@ -1,10 +1,12 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.Qt import QFileDialog
+from PyQt5.QtCore import pyqtSignal
 
 import csv
 import calendarGUI
 
 from builtins import dict
+from calendar import calendar
 
 class StatConnexion(QtWidgets.QMainWindow):
     
@@ -32,12 +34,13 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.validationPushButton.clicked.connect(self.validate)
         
         self.dateDebutPushButton = self.ui.dateDebutPushButton
-        self.dateDebutPushButton.clicked.connect(self.showCalendar)
+        self.dateDebutPushButton.clicked.connect(self.showCalendarDateDebut)
         
         self.dateFinPushButton = self.ui.dateFinPushButton
-        self.dateFinPushButton.clicked.connect(self.showCalendar)
+        self.dateFinPushButton.clicked.connect(self.showCalendarDateFin)
         
-        
+        self.dateDebutLineEdit = self.ui.dateDebutLineEdit
+        self.dateFinLineEdit = self.ui.dateFinLineEdit
                 
         self.show()
         
@@ -101,10 +104,28 @@ class StatConnexion(QtWidgets.QMainWindow):
         PC = self.pcComboBox.currentText()        
         print(Salle, PC)
         
-    def showCalendar(self):
-        calendarGUI.Calendar()
+    def showCalendarDateDebut(self):
+        self.calendar = calendarGUI.Calendar()
+        self.calendar.signal.connect(self.dateDebutChoisi)
+        
+    def showCalendarDateFin(self):
+        self.calendar = calendarGUI.Calendar()
+        self.calendar.signal.connect(self.dateFinChoisi)
+        
+    def dateDebutChoisi(self, date):
+        self.dateDebutLineEdit.setText(date)
+        
+    def dateFinChoisi(self, date):
+        self.dateFinLineEdit.setText(date)
+            
         
     def quit(self):
         self.close()
         
+    def finished(self):
+        date = self.calendar.getDate()
+        print(date)
+        
+    def setDateDebut(self, dateDebut):
+        self.ui.dateDebutLineEdit.setText(dateDebut)
     
