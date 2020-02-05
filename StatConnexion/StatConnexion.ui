@@ -70,10 +70,10 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="dateDebutPushButton">
+          <item row="1" column="0">
+           <widget class="QLabel" name="pcLabel">
             <property name="text">
-             <string>...</string>
+             <string>PC:</string>
             </property>
            </widget>
           </item>
@@ -91,10 +91,13 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="dateDebutLineEdit">
-            <property name="readOnly">
-             <bool>true</bool>
+          <item row="1" column="1" colspan="2">
+           <widget class="QComboBox" name="pcComboBox"/>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QPushButton" name="validationPushButton">
+            <property name="text">
+             <string>Valider</string>
             </property>
            </widget>
           </item>
@@ -105,6 +108,13 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="dateDebutLineEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="dateFinLabel">
             <property name="text">
@@ -112,25 +122,15 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="pcLabel">
+          <item row="2" column="2">
+           <widget class="QPushButton" name="dateDebutPushButton">
             <property name="text">
-             <string>PC:</string>
+             <string>...</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1" colspan="2">
            <widget class="QComboBox" name="salleComboBox"/>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QComboBox" name="pcComboBox"/>
-          </item>
-          <item row="4" column="0" colspan="3">
-           <widget class="QPushButton" name="validationPushButton">
-            <property name="text">
-             <string>Valider</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
@@ -154,20 +154,6 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QLabel" name="resultatLabel">
-         <property name="text">
-          <string>Resultat</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="parcourirPushButton">
-         <property name="text">
-          <string>Parcourir...</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="FichierEnregistrerLabel">
          <property name="text">
@@ -182,15 +168,29 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="3">
-        <widget class="QTextBrowser" name="resultatTextBrowser"/>
-       </item>
        <item row="3" column="0" colspan="3">
         <widget class="QPushButton" name="enregistrerPushButton">
          <property name="text">
           <string>Enregistrer</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="resultatLabel">
+         <property name="text">
+          <string>Resultat</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="parcourirPushButton">
+         <property name="text">
+          <string>Parcourir...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QTextEdit" name="resultatTextEdit"/>
        </item>
       </layout>
      </widget>
