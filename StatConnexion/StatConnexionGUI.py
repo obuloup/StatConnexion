@@ -9,6 +9,7 @@ from builtins import dict
 class StatConnexion(QtWidgets.QMainWindow):
     
     chemin = ''
+
     
     def __init__(self):
         
@@ -41,7 +42,12 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.dateFinLineEdit = self.ui.dateFinLineEdit
         
         self.resultatTextEdit = self.ui.resultatTextEdit
-                
+        
+        self.parcourirPushButton = self.ui.parcourirPushButton
+        self.parcourirPushButton.clicked.connect(self.selectionFichier)   
+        
+        self.exporterPushButton = self.ui.exporterPushButton
+        self.exporterPushButton.clicked.connect(self.exporter)   
         self.show()
         
         
@@ -54,7 +60,6 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         listeSalle = []
         numSalle = []
-
         
         if self.chemin.strip() != "":
         
@@ -100,8 +105,40 @@ class StatConnexion(QtWidgets.QMainWindow):
         Salle = self.salleComboBox.currentText()
         PC = self.pcComboBox.currentText()
         dateMinimum =  self.dateDebutLineEdit.text()
-        dateMaximun = self.dateFinLineEdit.text()
-        self.filtre(Salle, PC, dateMinimum, dateMaximun)
+        dateMaximum = self.dateFinLineEdit.text()
+        self.ui.resultatTextEdit.clear()
+   
+        if dateMinimum < dateMaximum:
+            
+            with open(self.chemin, newline='') as csvfile:
+                spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+        
+                next(spamreader, None)
+                connexion = 0       
+                connexionTotale = 0
+                connexionTotaleSalle = 0
+                PCCollege = []
+                for row in spamreader:
+                    date = row[3]
+                    pc = row[0]
+                    
+                    #PC de la salle
+                    if dateMinimum <= date and dateMaximum >=  date and pc == PC and row[1] == "1":
+                        print(row)
+                        connexion = connexion + 1
+                        
+                    #Salle
+                    if dateMinimum <= date and dateMaximum >=  date and row[1] == "1" and pc.split("-")[1] == Salle:
+                        connexionTotaleSalle = connexionTotaleSalle + 1
+                        nombrePC = self.pcComboBox.count()
+                    
+                    #College
+                    if dateMinimum <= date and dateMaximum >=  date and row[1] == "1":
+                        connexionTotale = connexionTotale + 1
+                        PCCollege.append(row[0])
+                PCCollege = list(dict.fromkeys(PCCollege))
+                nombrePCUtilisie = len(PCCollege)
+            self.bilan(connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie)
         
     def showCalendarDateDebut(self):
         self.calendar = calendarGUI.Calendar()
@@ -126,32 +163,45 @@ class StatConnexion(QtWidgets.QMainWindow):
         
     def setDateDebut(self, dateDebut):
         self.ui.dateDebutLineEdit.setText(dateDebut)
-    
-    def filtre(self, Salle, PC, dateMinimum, dateMaximum):
-        
-        if dateMinimum < dateMaximum:
             
-            listeConnexionDate = []
-            listeConnexionPC = []
-            
-            with open(self.chemin, newline='') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+    def bilan(self, connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie):
+        connexion = str(connexion)
+        connexionTotale = str(connexionTotale)
+        connexionTotaleSalle = str(connexionTotaleSalle)
+        nombrePC = str(nombrePC)
+        nombrePCUtilisie = str(nombrePCUtilisie)
         
-                next(spamreader, None)
+        self.ui.resultatTextEdit.append("*----------------Infos College---------------*")
+        self.ui.resultatTextEdit.append("Du : "+dateMinimum+" au : "+dateMaximum)
+        self.ui.resultatTextEdit.append("Nombre De Connexion: "+connexionTotale)
+        self.ui.resultatTextEdit.append("Nombre De PC utilise: "+nombrePCUtilisie)
+                     
+        self.ui.resultatTextEdit.append("")
+        
+        self.ui.resultatTextEdit.append("*------------------Infos Salle----------------*")
+        self.ui.resultatTextEdit.append("Salle : "+Salle)
+        self.ui.resultatTextEdit.append("Du : "+dateMinimum+" au : "+dateMaximum)
+        self.ui.resultatTextEdit.append("Nombre de PC:"+nombrePC)
+        self.ui.resultatTextEdit.append("Nombre De Connexion: "+connexionTotaleSalle)     
+          
+        self.ui.resultatTextEdit.append("")
+        
+        self.ui.resultatTextEdit.append("*------------------Infos PC------------------*")  
+        self.ui.resultatTextEdit.append("PC : "+PC)
+        self.ui.resultatTextEdit.append("Du : "+dateMinimum+" au : "+dateMaximum)
+        self.ui.resultatTextEdit.append("Nombre De Connexion: "+connexion)
+      
+    def selectionFichier(self):
+        self.cheminExportTemp = QFileDialog.getOpenFileName(self, 'Choisire Destination', '', '*.html')
+        self.cheminExport = self.cheminExportTemp[0]
+  
+    def exporter(self):
+
+        self.Export =  open(self.cheminExport, "w")
+        self.Export.write("<html>")
+        self.Export.write("<head><title>Stat Connexion</title></head>")
+        self.Export.write("<body>Sa Marche !</body>")
+        self.Export.write("</html>")
+        self.Export.close()           
                 
-                connexion = 0
-                for row in spamreader:
-                    date = row[3]
-                    pc = row[0]
-                    
-                    if date >= dateMinimum and date <=  dateMaximum and pc == PC and row[1] == "1":
-                            print(row)
-                            connexion = connexion + 1
-            print(connexion, dateMinimum, dateMaximum,PC)
-            self.bilan(connexion, dateMinimum, dateMaximum, PC)
-            
-    def bilan(self, connexion, dateMinimum, dateMaximum, PC):        
-        self.ui.resultatTextEdit.setText("PC : "+PC)
-        #self.ui.resultatTextEdit.setText("Date Debut : "+dateMinimum)
-        #self.ui.resultatTextEdit.setText("Date Fin : "+dateMaximum)
-        #self.ui.resultatTextEdit.setText("Nombre de Connexion totale : "+connexion)   
+        
