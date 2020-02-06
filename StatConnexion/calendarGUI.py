@@ -1,7 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, uic
 
-
-
 class Calendar(QtWidgets.QMainWindow):
     
     signal = QtCore.pyqtSignal(str)

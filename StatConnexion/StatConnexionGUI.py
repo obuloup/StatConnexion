@@ -9,7 +9,6 @@ from builtins import dict
 class StatConnexion(QtWidgets.QMainWindow):
     
     chemin = ''
-
     
     def __init__(self):
         
@@ -87,6 +86,7 @@ class StatConnexion(QtWidgets.QMainWindow):
         listePC = []
         
         if self.chemin.strip() != "":
+        
             with open(self.chemin, newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         
@@ -153,7 +153,7 @@ class StatConnexion(QtWidgets.QMainWindow):
         
     def dateFinChoisi(self, date):
         self.dateFinLineEdit.setText(date)
-        
+
     def quit(self):
         self.close()
         
