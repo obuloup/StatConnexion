@@ -118,13 +118,22 @@ class StatConnexion(QtWidgets.QMainWindow):
                 connexionTotale = 0
                 connexionTotaleSalle = 0
                 PCCollege = []
+                self.rowListe = []
+                self.rowListe.append("<html>")
+                self.rowListe.append("<head>")
+                self.rowListe.append("</head>")
+                self.rowListe.append("<body>")
+                self.rowListe.append("<table><thead><tr><th>Machine Id</th><th>Etat</th><th>Utilisateur</th><th>Date</th><th>Heure</th></tr></thead><tbody>")
+                
                 for row in spamreader:
                     date = row[3]
                     pc = row[0]
                     
+                    if dateMinimum <= date and dateMaximum >=  date and pc == PC:
+                        self.rowListe.append("<tr><td>" + row[0] + "</td>" + "<td>" + row[1] + "</td>" + "<td>" + row[2] + "</td>"+ "<td>" + row[3] + "</td>"+ "<td>" + row[4] + "</td>"+ "</tr>")
                     #PC de la salle
                     if dateMinimum <= date and dateMaximum >=  date and pc == PC and row[1] == "1":
-                        print(row)
+                        #print(row)
                         connexion = connexion + 1
                         
                     #Salle
@@ -136,8 +145,14 @@ class StatConnexion(QtWidgets.QMainWindow):
                     if dateMinimum <= date and dateMaximum >=  date and row[1] == "1":
                         connexionTotale = connexionTotale + 1
                         PCCollege.append(row[0])
+                        
                 PCCollege = list(dict.fromkeys(PCCollege))
                 nombrePCUtilisie = len(PCCollege)
+                
+                self.rowListe.append("</tbody></table></body></html>")
+                
+
+            
             self.bilan(connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie)
         
     def showCalendarDateDebut(self):
@@ -149,10 +164,14 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.calendar.signal.connect(self.dateFinChoisi)
         
     def dateDebutChoisi(self, date):
-        self.dateDebutLineEdit.setText(date)
+        dateMaximum = self.dateFinLineEdit.text()
+        if date < dateMaximum or dateMaximum == "":
+            self.dateDebutLineEdit.setText(date)
         
     def dateFinChoisi(self, date):
-        self.dateFinLineEdit.setText(date)
+        dateMinimum = self.dateDebutLineEdit.text()
+        if date > dateMinimum or dateMinimum == "":
+            self.dateFinLineEdit.setText(date)
 
     def quit(self):
         self.close()
@@ -197,11 +216,11 @@ class StatConnexion(QtWidgets.QMainWindow):
   
     def exporter(self):
 
-        self.Export =  open(self.cheminExport, "w")
-        self.Export.write("<html>")
-        self.Export.write("<head><title>Stat Connexion</title></head>")
-        self.Export.write("<body>Sa Marche !</body>")
-        self.Export.write("</html>")
+        self.Export = open(self.cheminExport, "w")
+        
+        for row in self.rowListe:
+            self.Export.write(row)
+        
         self.Export.close()           
                 
         
