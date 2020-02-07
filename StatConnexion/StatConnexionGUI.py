@@ -43,7 +43,9 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.resultatTextEdit = self.ui.resultatTextEdit
         
         self.parcourirPushButton = self.ui.parcourirPushButton
-        self.parcourirPushButton.clicked.connect(self.selectionFichier)   
+        self.parcourirPushButton.clicked.connect(self.selectionFichier) 
+        
+        self.fichierEnregstrerLineEdit = self.ui.fichierEnregstrerLineEdit  
         
         self.exporterPushButton = self.ui.exporterPushButton
         self.exporterPushButton.clicked.connect(self.exporter)   
@@ -119,17 +121,23 @@ class StatConnexion(QtWidgets.QMainWindow):
                 connexionTotaleSalle = 0
                 PCCollege = []
                 self.rowListe = []
+                self.rowListe.append("<!doctype html>")
                 self.rowListe.append("<html>")
                 self.rowListe.append("<head>")
+                self.rowListe.append('<meta charset="utf-8">')
+                self.rowListe.append('<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">')
+                self.rowListe.append('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>')
+                self.rowListe.append('<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>')
+              
                 self.rowListe.append("</head>")
                 self.rowListe.append("<body>")
-                self.rowListe.append("<table><thead><tr><th>Machine Id</th><th>Etat</th><th>Utilisateur</th><th>Date</th><th>Heure</th></tr></thead><tbody>")
+                self.rowListe.append('<table id="resultats"><thead><tr><th>Machine Id</th><th>Etat</th><th>Utilisateur</th><th>Date</th><th>Heure</th></tr></thead><tbody>')
                 
                 for row in spamreader:
                     date = row[3]
                     pc = row[0]
                     
-                    if dateMinimum <= date and dateMaximum >=  date and pc == PC:
+                    if dateMinimum <= date and dateMaximum >=  date and pc.split("-")[1] == Salle:
                         self.rowListe.append("<tr><td>" + row[0] + "</td>" + "<td>" + row[1] + "</td>" + "<td>" + row[2] + "</td>"+ "<td>" + row[3] + "</td>"+ "<td>" + row[4] + "</td>"+ "</tr>")
                     #PC de la salle
                     if dateMinimum <= date and dateMaximum >=  date and pc == PC and row[1] == "1":
@@ -149,8 +157,17 @@ class StatConnexion(QtWidgets.QMainWindow):
                 PCCollege = list(dict.fromkeys(PCCollege))
                 nombrePCUtilisie = len(PCCollege)
                 
-                self.rowListe.append("</tbody></table></body></html>")
-                
+                self.rowListe.append("</tbody></table>")
+                self.rowListe.append("<script>")
+                self.rowListe.append("$(document).ready( function () {")
+                self.rowListe.append("$('#resultats')")
+                self.rowListe.append(".addClass( 'nowrap' )")
+                self.rowListe.append(".dataTable( {")
+                self.rowListe.append("responsive: true")
+                self.rowListe.append("} );")
+                self.rowListe.append("} );")
+                self.rowListe.append("</script>")
+                self.rowListe.append("</html>")
 
             
             self.bilan(connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie)
@@ -213,6 +230,7 @@ class StatConnexion(QtWidgets.QMainWindow):
     def selectionFichier(self):
         self.cheminExportTemp = QFileDialog.getOpenFileName(self, 'Choisire Destination', '', '*.html')
         self.cheminExport = self.cheminExportTemp[0]
+        self.fichierEnregstrerLineEdit.setText(self.cheminExport)
   
     def exporter(self):
 
