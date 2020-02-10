@@ -56,7 +56,7 @@ class StatConnexion(QtWidgets.QMainWindow):
         #Supression des ellements dans la combobox
         self.salleComboBox.clear()
         
-        #Récuperation du fichier a l'aide du widget QFileDialogue
+        #Rï¿½cuperation du fichier a l'aide du widget QFileDialogue
         cheminTemp = QFileDialog.getOpenFileName(self, 'Choisir College', '', '*.csv')
         self.chemin = cheminTemp[0]
         self.statConnexionFileLineEdit.setText(self.chemin)
@@ -89,7 +89,7 @@ class StatConnexion(QtWidgets.QMainWindow):
             #Ajout de la liste salle dans la combobox
             self.salleComboBox.addItems(numSalle)
        
-    #Création d'une fonction pour l'actualisation de la combobox des PC    
+    #Crï¿½ation d'une fonction pour l'actualisation de la combobox des PC    
     def updatePC(self):
         self.pcComboBox.clear()
         
@@ -152,7 +152,7 @@ class StatConnexion(QtWidgets.QMainWindow):
                         connexion = connexion + 1
                         
                     #Salle
-                    if dateMinimum <= date and dateMaximum >=  date and row[1] == "1" and pc.split("-")[1] == Salle:
+                    if dateMinimum <= date and dateMaximum >=  date and row[1] == "1" and (pc.split("-")[1] == Salle or Salle == "..."):
                         connexionTotaleSalle = connexionTotaleSalle + 1
                         nombrePC = self.pcComboBox.count()
                     
