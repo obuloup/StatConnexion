@@ -56,7 +56,7 @@ class StatConnexion(QtWidgets.QMainWindow):
         #Supression des ellements dans la combobox
         self.salleComboBox.clear()
         
-        #Rï¿½cuperation du fichier a l'aide du widget QFileDialogue
+        #Récuperation du fichier a l'aide du widget QFileDialogue
         cheminTemp = QFileDialog.getOpenFileName(self, 'Choisir College', '', '*.csv')
         self.chemin = cheminTemp[0]
         self.statConnexionFileLineEdit.setText(self.chemin)
@@ -89,7 +89,7 @@ class StatConnexion(QtWidgets.QMainWindow):
             #Ajout de la liste salle dans la combobox
             self.salleComboBox.addItems(numSalle)
        
-    #Crï¿½ation d'une fonction pour l'actualisation de la combobox des PC    
+    #Création d'une fonction pour l'actualisation de la combobox des PC    
     def updatePC(self):
         self.pcComboBox.clear()
         
@@ -185,12 +185,12 @@ class StatConnexion(QtWidgets.QMainWindow):
                 self.rowListe.append("} );")
                 self.rowListe.append("</script>")
                 self.rowListe.append("</html>")
-                
-            
+
+
             self.bilan(connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie)
-            
-            
-        
+
+
+
     def showCalendarDateDebut(self):
         self.calendar = calendarGUI.Calendar()
         self.calendar.signal.connect(self.dateDebutChoisi)
@@ -219,9 +219,7 @@ class StatConnexion(QtWidgets.QMainWindow):
     def setDateDebut(self, dateDebut):
         self.ui.dateDebutLineEdit.setText(dateDebut)
             
-    def bilan(self, connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie):
-        print("ok")
-        
+    def bilan(self, connexion, dateMinimum, dateMaximum, PC, Salle, connexionTotale, connexionTotaleSalle, nombrePC, nombrePCUtilisie):     
         #convertion des variables int en str
         connexion = str(connexion)
         connexionTotale = str(connexionTotale)
@@ -253,15 +251,16 @@ class StatConnexion(QtWidgets.QMainWindow):
       
     def selectionFichier(self):
         #Affichage de la boite dialogue pour la selection du chemin d'export
-        self.cheminExportTemp = QFileDialog.getOpenFileName(self, 'Choisire Destination', '', '*.html')
+        self.cheminExportTemp = QFileDialog.getSaveFileName(self, 'Choisire Destination','','*.html')
         self.cheminExport = self.cheminExportTemp[0]
         self.fichierEnregstrerLineEdit.setText(self.cheminExport)
   
     def exporter(self):
 
         #Ecriture du text html a l'interieur du document selectionner
-        self.Export = open(self.cheminExport, "w")
-        
-        for row in self.rowListe:
-            self.Export.write(row)
-        self.Export.close()           
+        print(self.cheminExport)
+        with open(self.cheminExport, "w") as self.Export:
+            print("ok")
+            for row in self.rowListe:
+                self.Export.write(row)
+            self.Export.close()           
