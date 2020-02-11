@@ -42,11 +42,6 @@ class StatConnexion(QtWidgets.QMainWindow):
         
         self.resultatTextEdit = self.ui.resultatTextEdit
         
-        self.parcourirPushButton = self.ui.parcourirPushButton
-        self.parcourirPushButton.clicked.connect(self.selectionFichier) 
-        
-        self.fichierEnregstrerLineEdit = self.ui.fichierEnregstrerLineEdit  
-        
         self.exporterPushButton = self.ui.exporterPushButton
         self.exporterPushButton.clicked.connect(self.exporter)   
         self.show()
@@ -248,15 +243,15 @@ class StatConnexion(QtWidgets.QMainWindow):
         self.ui.resultatTextEdit.append("PC : "+PC)
         self.ui.resultatTextEdit.append("Du : "+dateMinimum+" au : "+dateMaximum)
         self.ui.resultatTextEdit.append("Nombre De Connexion: "+connexion)
-      
-    def selectionFichier(self):
+
+    def exporter(self):
+        
+        print('ok')
+        
         #Affichage de la boite dialogue pour la selection du chemin d'export
         self.cheminExportTemp = QFileDialog.getSaveFileName(self, 'Choisire Destination','','*.html')
         self.cheminExport = self.cheminExportTemp[0]
-        self.fichierEnregstrerLineEdit.setText(self.cheminExport)
-  
-    def exporter(self):
-
+        
         #Ecriture du text html a l'interieur du document selectionner
         print(self.cheminExport)
         with open(self.cheminExport, "w") as self.Export:
